@@ -10,7 +10,13 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import { MapPin, Mail, ArrowRight } from "lucide-react";
+import {
+  MapPin,
+  Mail,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 interface HeroCard {
   id: string;
@@ -22,11 +28,8 @@ interface HeroCard {
   image: string;
   cardBg: string;
   defaultRotate: number;
-  mobileRotate: number;
   defaultX: number;
-  mobileX: number;
   defaultY: number;
-  mobileY: number;
 }
 
 interface BrandLetter {
@@ -78,11 +81,8 @@ const heroCards: HeroCard[] = [
     image: "/images/hero_cards/hero_mandala_art.webp",
     cardBg: "bg-[#480B15]", // 1. Luxury Atelier Burgundy Wine Frame
     defaultRotate: -12,
-    mobileRotate: -9,
     defaultX: -140,
-    mobileX: -80,
     defaultY: 8,
-    mobileY: 4,
   },
   {
     id: "workshops",
@@ -94,11 +94,8 @@ const heroCards: HeroCard[] = [
     image: "/images/workshops/lippan_workshop.webp",
     cardBg: "bg-[#FAF3EC] border border-[#E4D5C7]", // 2. Warm Atelier Linen Ivory Frame
     defaultRotate: -4,
-    mobileRotate: -3,
     defaultX: -45,
-    mobileX: -26,
     defaultY: -6,
-    mobileY: -3,
   },
   {
     id: "atelier",
@@ -110,11 +107,8 @@ const heroCards: HeroCard[] = [
     image: "/images/hero_cards/hero_atelier_framed.webp",
     cardBg: "bg-[#480B15]", // 3. Luxury Atelier Burgundy Wine Frame
     defaultRotate: 4,
-    mobileRotate: 3,
     defaultX: 45,
-    mobileX: 26,
     defaultY: -4,
-    mobileY: -2,
   },
   {
     id: "artist",
@@ -126,11 +120,8 @@ const heroCards: HeroCard[] = [
     image: "/images/artist.webp",
     cardBg: "bg-[#FAF3EC] border border-[#E4D5C7]", // 4. Warm Atelier Linen Ivory Frame
     defaultRotate: 12,
-    mobileRotate: 9,
     defaultX: 140,
-    mobileX: 80,
     defaultY: 10,
-    mobileY: 5,
   },
 ];
 
@@ -138,9 +129,17 @@ export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const deckRef = useRef<HTMLDivElement>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [activeCardId, setActiveCardId] = useState<string>("art");
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(true);
+
+  // Manual Slide Navigation (Right and Left tap controls)
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + heroCards.length) % heroCards.length);
+  };
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % heroCards.length);
+  };
 
   // Track desktop breakpoint for responsive slide behavior
   useEffect(() => {
@@ -151,21 +150,6 @@ export default function HeroSection() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Mobile Auto-Cycle: Gently showcase each pillar every 3.5 seconds
-  useEffect(() => {
-    if (!isAutoPlaying || isDesktop) return;
-
-    const interval = setInterval(() => {
-      setActiveCardId((prev) => {
-        const curIdx = heroCards.findIndex((c) => c.id === prev);
-        const nextIdx = (curIdx + 1) % heroCards.length;
-        return heroCards[nextIdx].id;
-      });
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, isDesktop]);
 
   // Touch Swipe gestures on mobile
   const touchStartXRef = useRef<number>(0);
@@ -178,15 +162,11 @@ export default function HeroSection() {
     if (e.changedTouches.length === 0) return;
     const diff = e.changedTouches[0].clientX - touchStartXRef.current;
     if (Math.abs(diff) > 35) {
-      setIsAutoPlaying(false);
-      setActiveCardId((prev) => {
-        const curIdx = heroCards.findIndex((c) => c.id === prev);
-        if (diff < 0) {
-          return heroCards[(curIdx + 1) % heroCards.length].id;
-        } else {
-          return heroCards[(curIdx - 1 + heroCards.length) % heroCards.length].id;
-        }
-      });
+      if (diff < 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
     }
   };
 
@@ -274,8 +254,8 @@ export default function HeroSection() {
     lastHoveredCardRef.current = null;
   };
 
-  const activeCard = heroCards.find((c) => c.id === hoveredCard);
-  const currentMobileCard = heroCards.find((c) => c.id === activeCardId) || heroCards[0];
+  const activeDesktopCard = heroCards.find((c) => c.id === hoveredCard);
+  const currentMobileCard = heroCards[currentIndex];
 
   return (
     <section
@@ -365,23 +345,22 @@ export default function HeroSection() {
 
       {/* =========================================================================
           2. CENTER STAGE:
-             - ON MOBILE: Active Card Editorial Showcase + Interactive 4-Card Deck
+             - ON MOBILE: Active Card Editorial Showcase + Left/Right Slide Deck
              - ON DESKTOP: 3D Deck slides left on hover + Right Editorial Typography
           ========================================================================= */}
       <div className="relative w-full max-w-7xl flex-1 flex flex-col md:flex-row items-center justify-center my-auto z-30 perspective-[1400px]">
         
         {/* -----------------------------------------------------------------------
-            MOBILE EDITORIAL SHOWCASE (Fills the previously empty middle space!)
-            Smoothly morphs with active pillar, shows description and direct CTA button
+            MOBILE EDITORIAL SHOWCASE (Controlled by Left & Right Tap Buttons)
             ----------------------------------------------------------------------- */}
-        <div className="block md:hidden w-full max-w-sm px-4 text-center mt-3 mb-4 z-30">
+        <div className="block md:hidden w-full max-w-sm px-4 text-center mt-2.5 mb-3 z-30">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentMobileCard.id}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col items-center"
             >
               {/* Pillar Monospace Kicker */}
@@ -399,14 +378,14 @@ export default function HeroSection() {
               </h2>
 
               {/* Refined Fine-Art Editorial Subtitle */}
-              <p className="font-serif italic text-[11.5px] text-[#786C65] mt-1 max-w-[280px] leading-snug">
+              <p className="font-serif italic text-[11.5px] text-[#786C65] mt-0.5 max-w-[280px] leading-snug">
                 {currentMobileCard.description}
               </p>
 
               {/* Luxury Pill CTA Button */}
               <Link
                 href={currentMobileCard.href}
-                className="mt-2.5 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#480B15] text-[#FAF6F0] text-[10px] font-semibold tracking-[0.16em] uppercase shadow-sm active:scale-95 transition-all"
+                className="mt-2 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#480B15] text-[#FAF6F0] text-[10px] font-semibold tracking-[0.16em] uppercase shadow-sm active:scale-95 transition-all"
               >
                 <span>{currentMobileCard.sublabel}</span>
                 <ArrowRight className="w-3 h-3" />
@@ -414,137 +393,230 @@ export default function HeroSection() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Minimalist 4-Pillar Indicator Bar */}
-          <div className="flex items-center justify-center gap-1.5 mt-2.5">
-            {heroCards.map((c) => {
-              const isActive = currentMobileCard.id === c.id;
-              return (
+          {/* Slide Controls Bar: [ < ]  — • • •  [ > ] */}
+          <div className="flex items-center justify-center gap-3 mt-2.5">
+            <button
+              type="button"
+              onClick={prevSlide}
+              className="w-7 h-7 rounded-full bg-white/95 border border-[#480B15]/20 shadow-xs flex items-center justify-center text-[#480B15] active:scale-90 hover:bg-[#480B15] hover:text-white transition-all cursor-pointer"
+              aria-label="Previous Slide"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            {/* 4-Pillar Dot Indicators */}
+            <div className="flex items-center gap-1.5 px-1">
+              {heroCards.map((c, i) => (
                 <button
                   key={c.id}
-                  onClick={() => {
-                    setActiveCardId(c.id);
-                    setIsAutoPlaying(false);
-                  }}
-                  className={`h-1 rounded-full transition-all duration-300 cursor-pointer ${
-                    isActive ? "w-6 bg-[#480B15]" : "w-1.5 bg-[#480B15]/25"
+                  type="button"
+                  onClick={() => setCurrentIndex(i)}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    currentIndex === i ? "w-6 bg-[#480B15]" : "w-1.5 bg-[#480B15]/25"
                   }`}
-                  aria-label={`Select ${c.label}`}
+                  aria-label={`Go to slide ${i + 1}`}
                 />
-              );
-            })}
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={nextSlide}
+              className="w-7 h-7 rounded-full bg-white/95 border border-[#480B15]/20 shadow-xs flex items-center justify-center text-[#480B15] active:scale-90 hover:bg-[#480B15] hover:text-white transition-all cursor-pointer"
+              aria-label="Next Slide"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
         {/* -----------------------------------------------------------------------
             THE 3D CARD DECK CONTAINER
-            - Mobile: elevated active card, swipeable, tap-to-switch or tap-to-navigate
-            - Desktop: slides left smoothly on hover
+            - Mobile: Focused 3D Slide Carousel with Left & Right Tap Arrows
+            - Desktop: 4 Cards fan out, slide left on hover
             ----------------------------------------------------------------------- */}
-        <motion.div
-          ref={deckRef}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            x: hoveredCard && isDesktop ? -140 : 0,
-          }}
-          transition={{
-            opacity: { duration: 1.0, delay: 1.2, ease: [0.16, 1, 0.3, 1] },
-            scale: { duration: 1.1, delay: 1.2, ease: [0.16, 1, 0.3, 1] },
-            x: { duration: 0.36, ease: [0.16, 1, 0.3, 1] },
-          }}
-          style={{
-            rotateX,
-            rotateY,
-            transformStyle: "preserve-3d",
-          }}
-          onMouseMove={handleDeckMouseMove}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-          onMouseLeave={() => setHoveredCard(null)}
-          className="relative w-[290px] xs:w-[330px] sm:w-[460px] md:w-[520px] h-[175px] xs:h-[195px] sm:h-[280px] md:h-[310px] origin-center flex items-center justify-center z-20 cursor-pointer"
-        >
-          {/* Ambient Depth Blur Shadow Underneath Cards */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[560px] h-[70px] sm:h-[90px] rounded-full bg-[#480B15]/10 blur-2xl pointer-events-none z-10" />
+        <div className="relative flex items-center justify-center">
+          
+          {/* Mobile Direct Floating Left Chevron on Deck */}
+          <button
+            type="button"
+            onClick={prevSlide}
+            className="md:hidden absolute -left-4 xs:-left-6 top-1/2 -translate-y-1/2 z-40 w-9 h-9 rounded-full bg-white/95 border border-[#480B15]/20 shadow-md flex items-center justify-center text-[#480B15] active:scale-90 hover:bg-[#480B15] hover:text-white transition-all cursor-pointer"
+            aria-label="Previous Card"
+          >
+            <ChevronLeft className="w-4.5 h-4.5 stroke-[2.5]" />
+          </button>
 
-          {/* 4 Minimalist Squircle Cards with Luxury Alternating Frames */}
-          {heroCards.map((card, idx) => {
-            const isCardActive = isDesktop ? hoveredCard === card.id : activeCardId === card.id;
-            const targetX = isDesktop ? card.defaultX : card.mobileX;
-            const targetY = isDesktop
-              ? (isCardActive ? card.defaultY - 26 : card.defaultY)
-              : (isCardActive ? card.mobileY - 14 : card.mobileY);
-            const targetRotate = isDesktop
-              ? (isCardActive ? card.defaultRotate * 0.2 : card.defaultRotate)
-              : (isCardActive ? card.mobileRotate * 0.2 : card.mobileRotate);
-            const targetScale = isCardActive ? (isDesktop ? 1.07 : 1.05) : (isDesktop ? 1 : 0.97);
-            const targetZ = isCardActive ? 120 : idx * 14;
-            const targetOpacity = isDesktop
-              ? (hoveredCard && !isCardActive ? 0.88 : 1)
-              : (isCardActive ? 1 : 0.82);
+          {/* Mobile Direct Floating Right Chevron on Deck */}
+          <button
+            type="button"
+            onClick={nextSlide}
+            className="md:hidden absolute -right-4 xs:-right-6 top-1/2 -translate-y-1/2 z-40 w-9 h-9 rounded-full bg-white/95 border border-[#480B15]/20 shadow-md flex items-center justify-center text-[#480B15] active:scale-90 hover:bg-[#480B15] hover:text-white transition-all cursor-pointer"
+            aria-label="Next Card"
+          >
+            <ChevronRight className="w-4.5 h-4.5 stroke-[2.5]" />
+          </button>
 
-            return (
-              <motion.div
-                key={card.id}
-                initial={{
-                  x: 0,
-                  y: 0,
-                  rotate: 0,
-                  scale: 0.95,
-                }}
-                animate={{
-                  x: targetX,
-                  y: targetY,
-                  z: targetZ,
-                  rotate: targetRotate,
-                  scale: targetScale,
-                  opacity: targetOpacity,
-                }}
-                transition={{
-                  x: { duration: 1.1, delay: 1.2 + idx * 0.07, ease: [0.16, 1, 0.3, 1] },
-                  rotate: { duration: 1.1, delay: 1.2 + idx * 0.07, ease: [0.16, 1, 0.3, 1] },
-                  y: { duration: isCardActive ? 0.28 : 1.1, ease: [0.16, 1, 0.3, 1] },
-                  scale: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
-                }}
-                style={{
-                  transformOrigin: "bottom center",
-                  transformStyle: "preserve-3d",
-                  zIndex: isCardActive ? 60 : idx + 1,
-                }}
-                onClick={(e) => {
-                  if (!isDesktop) {
-                    if (activeCardId !== card.id) {
+          <motion.div
+            ref={deckRef}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              x: hoveredCard && isDesktop ? -140 : 0,
+            }}
+            transition={{
+              opacity: { duration: 1.0, delay: 1.2, ease: [0.16, 1, 0.3, 1] },
+              scale: { duration: 1.1, delay: 1.2, ease: [0.16, 1, 0.3, 1] },
+              x: { duration: 0.36, ease: [0.16, 1, 0.3, 1] },
+            }}
+            style={{
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d",
+            }}
+            onMouseMove={handleDeckMouseMove}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onMouseLeave={() => setHoveredCard(null)}
+            className="relative w-[280px] xs:w-[320px] sm:w-[460px] md:w-[520px] h-[180px] xs:h-[200px] sm:h-[280px] md:h-[310px] origin-center flex items-center justify-center z-20 cursor-pointer"
+          >
+            {/* Ambient Depth Blur Shadow Underneath Cards */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] sm:w-[560px] h-[70px] sm:h-[90px] rounded-full bg-[#480B15]/10 blur-2xl pointer-events-none z-10" />
+
+            {/* 4 Cards Rendered Responsively */}
+            {heroCards.map((card, idx) => {
+              // Mobile Relative Position Calculation
+              const diff = (idx - currentIndex + heroCards.length) % heroCards.length;
+
+              let mobileTargetX = 0;
+              let mobileTargetY = 0;
+              let mobileTargetRotate = 0;
+              let mobileTargetScale = 1;
+              let mobileTargetZ = 10;
+              let mobileTargetOpacity = 1;
+
+              if (diff === 0) {
+                // Active Center Card
+                mobileTargetX = 0;
+                mobileTargetY = -8;
+                mobileTargetRotate = 0;
+                mobileTargetScale = 1.05;
+                mobileTargetZ = 40;
+                mobileTargetOpacity = 1;
+              } else if (diff === 1) {
+                // Right Card (Next)
+                mobileTargetX = 84;
+                mobileTargetY = 4;
+                mobileTargetRotate = 9;
+                mobileTargetScale = 0.86;
+                mobileTargetZ = 20;
+                mobileTargetOpacity = 0.78;
+              } else if (diff === heroCards.length - 1) {
+                // Left Card (Previous)
+                mobileTargetX = -84;
+                mobileTargetY = 4;
+                mobileTargetRotate = -9;
+                mobileTargetScale = 0.86;
+                mobileTargetZ = 20;
+                mobileTargetOpacity = 0.78;
+              } else {
+                // Back Card
+                mobileTargetX = 0;
+                mobileTargetY = 12;
+                mobileTargetRotate = 0;
+                mobileTargetScale = 0.72;
+                mobileTargetZ = 5;
+                mobileTargetOpacity = 0;
+              }
+
+              // Desktop Values
+              const isDesktopActive = hoveredCard === card.id;
+              const desktopTargetX = card.defaultX;
+              const desktopTargetY = isDesktopActive ? card.defaultY - 26 : card.defaultY;
+              const desktopTargetRotate = isDesktopActive ? card.defaultRotate * 0.2 : card.defaultRotate;
+              const desktopTargetScale = isDesktopActive ? 1.07 : 1;
+              const desktopTargetZ = isDesktopActive ? 120 : idx * 14;
+              const desktopTargetOpacity = hoveredCard && !isDesktopActive ? 0.88 : 1;
+
+              // Chosen Values based on Viewport
+              const targetX = isDesktop ? desktopTargetX : mobileTargetX;
+              const targetY = isDesktop ? desktopTargetY : mobileTargetY;
+              const targetRotate = isDesktop ? desktopTargetRotate : mobileTargetRotate;
+              const targetScale = isDesktop ? desktopTargetScale : mobileTargetScale;
+              const targetZ = isDesktop ? desktopTargetZ : mobileTargetZ;
+              const targetOpacity = isDesktop ? desktopTargetOpacity : mobileTargetOpacity;
+              const isCardHighlighted = isDesktop ? isDesktopActive : diff === 0;
+
+              return (
+                <motion.div
+                  key={card.id}
+                  initial={{
+                    x: 0,
+                    y: 0,
+                    rotate: 0,
+                    scale: 0.95,
+                  }}
+                  animate={{
+                    x: targetX,
+                    y: targetY,
+                    z: targetZ,
+                    rotate: targetRotate,
+                    scale: targetScale,
+                    opacity: targetOpacity,
+                  }}
+                  transition={{
+                    x: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                    y: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                    rotate: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                    scale: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                    opacity: { duration: 0.32 },
+                  }}
+                  style={{
+                    transformOrigin: "bottom center",
+                    transformStyle: "preserve-3d",
+                    zIndex: targetZ,
+                  }}
+                  onClick={(e) => {
+                    if (!isDesktop) {
+                      if (diff === 0) {
+                        // Center card follows link
+                        return;
+                      }
                       e.preventDefault();
-                      setActiveCardId(card.id);
-                      setIsAutoPlaying(false);
+                      if (diff === heroCards.length - 1) {
+                        prevSlide();
+                      } else {
+                        nextSlide();
+                      }
                     }
-                  }
-                }}
-                className={`absolute w-[120px] xs:w-[138px] sm:w-[205px] md:w-[235px] h-[152px] xs:h-[176px] sm:h-[235px] md:h-[270px] rounded-[18px] sm:rounded-[32px] overflow-visible ${card.cardBg} cursor-pointer block p-1.5 sm:p-2.5 select-none transition-shadow duration-300 ${
-                  isCardActive
-                    ? "shadow-[0_24px_55px_rgba(72,11,21,0.28)]"
-                    : "shadow-[0_12px_28px_rgba(72,11,21,0.11)]"
-                }`}
-              >
-                <Link
-                  href={card.href}
-                  className="relative w-full h-full block rounded-[14px] sm:rounded-[24px] overflow-hidden shadow-[0_4px_14px_rgba(0,0,0,0.10)] bg-black/5"
+                  }}
+                  className={`absolute w-[128px] xs:w-[145px] sm:w-[205px] md:w-[235px] h-[162px] xs:h-[185px] sm:h-[235px] md:h-[270px] rounded-[18px] sm:rounded-[32px] overflow-visible ${card.cardBg} cursor-pointer block p-1.5 sm:p-2.5 select-none transition-shadow duration-300 ${
+                    isCardHighlighted
+                      ? "shadow-[0_24px_55px_rgba(72,11,21,0.28)]"
+                      : "shadow-[0_12px_28px_rgba(72,11,21,0.11)]"
+                  }`}
                 >
-                  <Image
-                    src={card.image}
-                    alt={card.label}
-                    fill
-                    className={`object-cover object-top transition-transform duration-500 pointer-events-none ${
-                      isCardActive ? "scale-105" : "scale-100"
-                    }`}
-                    unoptimized
-                    priority
-                  />
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                  <Link
+                    href={card.href}
+                    className="relative w-full h-full block rounded-[14px] sm:rounded-[24px] overflow-hidden shadow-[0_4px_14px_rgba(0,0,0,0.10)] bg-black/5"
+                  >
+                    <Image
+                      src={card.image}
+                      alt={card.label}
+                      fill
+                      className={`object-cover object-top transition-transform duration-500 pointer-events-none ${
+                        isCardHighlighted ? "scale-105" : "scale-100"
+                      }`}
+                      unoptimized
+                      priority
+                    />
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
 
         {/* -----------------------------------------------------------------------
             DESKTOP RIGHT-SIDE EDITORIAL TYPOGRAPHY SLOT
@@ -552,9 +624,9 @@ export default function HeroSection() {
             ----------------------------------------------------------------------- */}
         <div className="hidden md:block absolute left-[calc(50%+190px)] lg:left-[calc(50%+205px)] top-1/2 -translate-y-1/2 w-[280px] lg:w-[340px] xl:w-[380px] z-30 pointer-events-auto">
           <AnimatePresence mode="wait">
-            {activeCard && (
+            {activeDesktopCard && (
               <motion.div
-                key={activeCard.id}
+                key={activeDesktopCard.id}
                 initial={{ opacity: 0, x: 28, filter: "blur(4px)" }}
                 animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                 exit={{ opacity: 0, x: 18, filter: "blur(3px)" }}
@@ -562,31 +634,31 @@ export default function HeroSection() {
                 className="text-left select-none"
               >
                 <Link
-                  href={activeCard.href}
-                  onMouseEnter={() => setHoveredCard(activeCard.id)}
+                  href={activeDesktopCard.href}
+                  onMouseEnter={() => setHoveredCard(activeDesktopCard.id)}
                   className="block group cursor-pointer"
                 >
                   {/* Pillar / Collection Monospace Kicker */}
                   <div className="flex items-center gap-2 mb-2">
                     <span className="h-px w-6 bg-[#480B15]/40" />
                     <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.24em] text-[#786C65] font-semibold">
-                      {activeCard.kicker}
+                      {activeDesktopCard.kicker}
                     </span>
                   </div>
 
                   {/* Monumental Display Title - Haute Spencer Display Font */}
                   <h2 className="font-spencer font-black text-5xl sm:text-6xl lg:text-7xl xl:text-[84px] uppercase text-[#2B0810] leading-[0.86] tracking-[-0.02em] group-hover:text-[#480B15] transition-colors">
-                    {activeCard.label}
+                    {activeDesktopCard.label}
                   </h2>
 
                   {/* Refined Fine-Art Editorial Subtitle */}
                   <p className="font-serif italic text-xs sm:text-sm lg:text-base text-[#786C65] mt-2 sm:mt-2.5 tracking-wide leading-snug">
-                    {activeCard.description}
+                    {activeDesktopCard.description}
                   </p>
 
                   {/* Luxury Pill CTA Button */}
                   <div className="mt-4 sm:mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#480B15] text-[#FAF6F0] text-xs font-semibold tracking-[0.16em] uppercase group-hover:bg-[#32060E] transition-all shadow-md group-hover:translate-x-1 duration-300">
-                    <span>{activeCard.sublabel}</span>
+                    <span>{activeDesktopCard.sublabel}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </Link>
