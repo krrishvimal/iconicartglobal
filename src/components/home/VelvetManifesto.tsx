@@ -94,7 +94,7 @@ export default function VelvetManifesto() {
               </span>
 
               <p className="text-2xl sm:text-3xl font-serif text-[#3E000C] leading-snug font-bold border-l-2 border-[#D4A853] pl-6 py-1">
-                &ldquo;Art has never been just a hobby for me. It is a part of who I am—turning a childhood love for colours into an unforgettable creative journey.&rdquo;
+                &ldquo;Art has never been just a hobby for me. It is a part of who I am, turning a childhood love for colours into an unforgettable creative journey.&rdquo;
               </p>
             </div>
 
