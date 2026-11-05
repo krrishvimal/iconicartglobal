@@ -72,7 +72,7 @@ function HeaderContent() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="w-full flex justify-end px-6 sm:px-10 pt-5 sm:pt-6 pointer-events-none select-none"
+            className="w-full flex justify-end px-3.5 sm:px-10 pt-3 sm:pt-6 pointer-events-none select-none"
           >
             <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-white/90 backdrop-blur-xl border border-black/[0.08] p-1.5 shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:shadow-md transition-all">
               {/* Shopping Bag Button */}

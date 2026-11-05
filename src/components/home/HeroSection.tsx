@@ -20,8 +20,11 @@ interface HeroCard {
   image: string;
   cardBg: string;
   defaultRotate: number;
+  mobileRotate: number;
   defaultX: number;
+  mobileX: number;
   defaultY: number;
+  mobileY: number;
 }
 
 interface BrandLetter {
@@ -71,8 +74,11 @@ const heroCards: HeroCard[] = [
     image: "/images/hero_cards/hero_mandala_art.webp",
     cardBg: "bg-[#480B15]", // 1. Luxury Atelier Burgundy Wine Frame
     defaultRotate: -12,
+    mobileRotate: -9,
     defaultX: -140,
+    mobileX: -80,
     defaultY: 8,
+    mobileY: 4,
   },
   {
     id: "workshops",
@@ -82,8 +88,11 @@ const heroCards: HeroCard[] = [
     image: "/images/workshops/lippan_workshop.webp",
     cardBg: "bg-[#FAF3EC] border border-[#E4D5C7]", // 2. Warm Atelier Linen Ivory Frame
     defaultRotate: -4,
+    mobileRotate: -3,
     defaultX: -45,
+    mobileX: -26,
     defaultY: -6,
+    mobileY: -3,
   },
   {
     id: "atelier",
@@ -93,8 +102,11 @@ const heroCards: HeroCard[] = [
     image: "/images/hero_cards/hero_atelier_framed.webp",
     cardBg: "bg-[#480B15]", // 3. Luxury Atelier Burgundy Wine Frame
     defaultRotate: 4,
+    mobileRotate: 3,
     defaultX: 45,
+    mobileX: 26,
     defaultY: -4,
+    mobileY: -2,
   },
   {
     id: "artist",
@@ -104,8 +116,11 @@ const heroCards: HeroCard[] = [
     image: "/images/artist.webp",
     cardBg: "bg-[#FAF3EC] border border-[#E4D5C7]", // 4. Warm Atelier Linen Ivory Frame
     defaultRotate: 12,
+    mobileRotate: 9,
     defaultX: 140,
+    mobileX: 80,
     defaultY: 10,
+    mobileY: 5,
   },
 ];
 
@@ -181,13 +196,16 @@ export default function HeroSection() {
       return;
     }
 
-    // Mathematical midpoints between card centers (-140, -45, +45, +140)
+    // Mathematical midpoints between card centers (-140, -45, +45, +140 desktop; -80, -26, +26, +80 mobile)
+    const threshold1 = isDesktop ? -92.5 : -53;
+    const threshold2 = isDesktop ? 92.5 : 53;
+
     let targetId: string;
-    if (relX < -92.5) {
+    if (relX < threshold1) {
       targetId = "art";
     } else if (relX < 0) {
       targetId = "workshops";
-    } else if (relX < 92.5) {
+    } else if (relX < threshold2) {
       targetId = "atelier";
     } else {
       targetId = "artist";
@@ -224,18 +242,18 @@ export default function HeroSection() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative h-screen min-h-[620px] max-h-[940px] w-full flex flex-col justify-between items-center bg-[#FAF6F0] pt-6 sm:pt-8 pb-5 px-4 sm:px-6 lg:px-8 select-none border-b border-black/[0.06] overflow-hidden"
+      className="relative h-screen min-h-[580px] sm:min-h-[640px] max-h-[960px] w-full flex flex-col justify-between items-center bg-[#FAF6F0] pt-14 xs:pt-16 sm:pt-8 pb-3 sm:pb-5 px-3 sm:px-6 lg:px-8 select-none border-b border-black/[0.06] overflow-hidden"
     >
       {/* =========================================================================
           BACKGROUND ARTWORK: "BURGUNDY CURVED PAINT STROKE" (TOP-LEFT ONLY)
-          Tucked elegantly into the corner to frame the canvas without colliding
+          Tucked elegantly into the corner to frame the canvas without colliding with text
           ========================================================================= */}
-      <div className="absolute -top-3 -left-8 sm:-top-5 sm:-left-10 md:-top-7 md:-left-12 lg:-top-8 lg:-left-14 w-[250px] sm:w-[330px] md:w-[410px] lg:w-[470px] xl:w-[510px] h-auto aspect-[1536/1024] pointer-events-none select-none z-0">
+      <div className="absolute -top-2 -left-6 sm:-top-5 sm:-left-10 md:-top-7 md:-left-12 lg:-top-8 lg:-left-14 w-[100px] xs:w-[120px] sm:w-[280px] md:w-[380px] lg:w-[460px] xl:w-[510px] h-auto aspect-[1536/1024] pointer-events-none select-none z-0">
         <Image
           src="/images/burgundy_paint_stroke.webp"
           alt="Burgundy Curved Paint Stroke"
           fill
-          className="object-contain object-top-left pointer-events-none drop-shadow-[0_12px_28px_rgba(72,11,21,0.10)]"
+          className="object-contain object-top-left pointer-events-none drop-shadow-[0_12px_28px_rgba(72,11,21,0.10)] opacity-70 sm:opacity-100"
           priority
           unoptimized
         />
@@ -250,24 +268,24 @@ export default function HeroSection() {
         
         {/* Top Location & Email Header Pill Bar */}
         <div
-          className="animate-fade-delayed flex items-center justify-center gap-2 sm:gap-3 text-[10px] sm:text-[11.5px] font-mono tracking-[0.20em] uppercase text-[#786C65] font-semibold"
+          className="animate-fade-delayed flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[9.5px] xs:text-[10px] sm:text-[11.5px] font-mono tracking-[0.16em] sm:tracking-[0.20em] uppercase text-[#786C65] font-semibold max-w-[290px] xs:max-w-md sm:max-w-none px-2"
         >
           <span className="inline-flex items-center gap-1.5 text-[#480B15]">
-            <MapPin className="w-3.5 h-3.5 text-[#480B15]" />
+            <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#480B15] shrink-0" />
             <span>GREATER NOIDA • NCR, INDIA</span>
           </span>
-          <span className="text-[#8B7D76]/40">|</span>
+          <span className="hidden sm:inline text-[#8B7D76]/40">|</span>
           <span className="inline-flex items-center gap-1.5 text-[#786C65]">
-            <Mail className="w-3.5 h-3.5 text-[#786C65]" />
+            <Mail className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#786C65] shrink-0" />
             <span className="lowercase">iconicartglobal@gmail.com</span>
           </span>
         </div>
 
         {/* Monumental Brand Display Title - Instant GPU-Composited Kinetic Intro (Zero Lag / Zero Stick) */}
         <div
-          className="animate-kinetic-shrink text-center mt-3 sm:mt-4 md:mt-4 mb-0 origin-center will-change-transform z-30 select-none"
+          className="animate-kinetic-shrink text-center mt-2.5 sm:mt-4 md:mt-4 mb-0 origin-center will-change-transform z-30 select-none px-2"
         >
-          <h1 className="font-spencer font-black text-4xl sm:text-6xl md:text-7xl lg:text-[94px] xl:text-[108px] uppercase text-[#2B0810] leading-[0.90] sm:leading-[0.88] tracking-[-0.02em]">
+          <h1 className="font-spencer font-black text-[32px] xs:text-4xl sm:text-6xl md:text-7xl lg:text-[94px] xl:text-[108px] uppercase text-[#2B0810] leading-[0.92] sm:leading-[0.88] tracking-[-0.02em]">
             {BRAND_WORDS.map((w, wIdx) => (
               <span key={wIdx} className="inline-block whitespace-nowrap">
                 {w.letters.map((l, lIdx) => (
@@ -294,13 +312,13 @@ export default function HeroSection() {
 
         {/* Elegant Editorial Subtitle Flanked with Hairlines */}
         <div
-          className="animate-fade-delayed flex items-center justify-center gap-3 mt-2 sm:mt-3"
+          className="animate-fade-delayed flex items-center justify-center gap-2 sm:gap-3 mt-1.5 sm:mt-3 px-4"
         >
-          <span className="h-px w-8 sm:w-16 bg-[#8B7D76]/40" />
-          <p className="font-serif italic text-xs sm:text-sm md:text-base tracking-[0.22em] uppercase text-[#786C65] font-medium">
+          <span className="h-px w-6 xs:w-8 sm:w-16 bg-[#8B7D76]/40" />
+          <p className="font-serif italic text-[11px] xs:text-xs sm:text-sm md:text-base tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#786C65] font-medium text-center">
             Art That Connects People &amp; Ideas
           </p>
-          <span className="h-px w-8 sm:w-16 bg-[#8B7D76]/40" />
+          <span className="h-px w-6 xs:w-8 sm:w-16 bg-[#8B7D76]/40" />
         </div>
 
       </div>
@@ -334,14 +352,21 @@ export default function HeroSection() {
           onTouchMove={handleDeckTouchMove}
           onTouchStart={handleDeckTouchMove}
           onMouseLeave={() => setHoveredCard(null)}
-          className="relative w-[320px] sm:w-[460px] md:w-[520px] h-[230px] sm:h-[280px] md:h-[310px] scale-[0.84] xs:scale-[0.90] sm:scale-95 md:scale-100 origin-center flex items-center justify-center z-20 cursor-pointer"
+          className="relative w-[290px] xs:w-[330px] sm:w-[460px] md:w-[520px] h-[190px] xs:h-[220px] sm:h-[280px] md:h-[310px] origin-center flex items-center justify-center z-20 cursor-pointer"
         >
           {/* Ambient Depth Blur Shadow Underneath Cards */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] sm:w-[560px] h-[90px] rounded-full bg-[#480B15]/10 blur-2xl pointer-events-none z-10" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[560px] h-[70px] sm:h-[90px] rounded-full bg-[#480B15]/10 blur-2xl pointer-events-none z-10" />
 
           {/* 4 Minimalist Squircle Cards with Luxury Alternating Frames */}
           {heroCards.map((card, idx) => {
             const isHovered = hoveredCard === card.id;
+            const targetX = isDesktop ? card.defaultX : card.mobileX;
+            const targetY = isDesktop
+              ? (isHovered ? card.defaultY - 26 : card.defaultY)
+              : (isHovered ? card.mobileY - 16 : card.mobileY);
+            const targetRotate = isDesktop
+              ? (isHovered ? card.defaultRotate * 0.2 : card.defaultRotate)
+              : (isHovered ? card.mobileRotate * 0.2 : card.mobileRotate);
 
             return (
               <motion.div
@@ -353,10 +378,10 @@ export default function HeroSection() {
                   scale: 0.95,
                 }}
                 animate={{
-                  x: card.defaultX,
-                  y: isHovered ? card.defaultY - 26 : card.defaultY,
+                  x: targetX,
+                  y: targetY,
                   z: isHovered ? 120 : idx * 14,
-                  rotate: isHovered ? card.defaultRotate * 0.2 : card.defaultRotate,
+                  rotate: targetRotate,
                   scale: isHovered ? 1.07 : 1,
                   opacity: hoveredCard && !isHovered ? 0.88 : 1,
                 }}
@@ -371,7 +396,7 @@ export default function HeroSection() {
                   transformStyle: "preserve-3d",
                   zIndex: isHovered ? 60 : idx + 1,
                 }}
-                className={`absolute w-[165px] sm:w-[205px] md:w-[235px] h-[190px] sm:h-[235px] md:h-[270px] rounded-[24px] sm:rounded-[32px] overflow-visible ${card.cardBg} cursor-pointer block p-2 sm:p-2.5 select-none transition-shadow duration-300 ${
+                className={`absolute w-[118px] xs:w-[136px] sm:w-[205px] md:w-[235px] h-[148px] xs:h-[172px] sm:h-[235px] md:h-[270px] rounded-[18px] sm:rounded-[32px] overflow-visible ${card.cardBg} cursor-pointer block p-1.5 sm:p-2.5 select-none transition-shadow duration-300 ${
                   isHovered
                     ? "shadow-[0_28px_65px_rgba(72,11,21,0.26)]"
                     : "shadow-[0_16px_36px_rgba(72,11,21,0.11)]"
@@ -379,7 +404,7 @@ export default function HeroSection() {
               >
                 <Link
                   href={card.href}
-                  className="relative w-full h-full block rounded-[18px] sm:rounded-[24px] overflow-hidden shadow-[0_4px_14px_rgba(0,0,0,0.10)] bg-black/5"
+                  className="relative w-full h-full block rounded-[14px] sm:rounded-[24px] overflow-hidden shadow-[0_4px_14px_rgba(0,0,0,0.10)] bg-black/5"
                 >
                   <Image
                     src={card.image}
@@ -455,9 +480,9 @@ export default function HeroSection() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 1.7, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center z-20 shrink-0 pb-3 sm:pb-4 select-none pointer-events-none"
+        className="text-center z-20 shrink-0 pb-2 sm:pb-4 select-none pointer-events-none"
       >
-        <p className="font-spencer font-bold text-lg sm:text-2xl md:text-3xl uppercase tracking-[0.16em] text-[#C4C6D0]">
+        <p className="font-spencer font-bold text-base xs:text-lg sm:text-2xl md:text-3xl uppercase tracking-[0.16em] text-[#C4C6D0]">
           Artist &bull; Educator &bull; Atelier
         </p>
       </motion.div>
