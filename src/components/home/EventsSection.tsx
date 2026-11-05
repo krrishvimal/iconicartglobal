@@ -36,8 +36,8 @@ export default function EventsSection() {
           </p>
         </motion.div>
 
-        {/* Events Grid */}
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Events 3-Column Grid */}
+        <div className="mt-16 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {featuredEvents.map((event, i) => (
             <motion.div
               key={event.id}

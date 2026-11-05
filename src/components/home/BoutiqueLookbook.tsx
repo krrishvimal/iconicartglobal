@@ -72,9 +72,9 @@ export default function BoutiqueLookbook() {
         </div>
 
         {/* =========================================================================
-            2. SPENCER GABOR-STYLE CLEAN SQUIRCLE PRODUCT GRID
+            2. SPENCER GABOR-STYLE 3-COLUMN SQUIRCLE PRODUCT GRID
             ========================================================================= */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {salonProducts.map((product) => {
             const displayImage =
               (product.images && product.images[0]) ||

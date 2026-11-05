@@ -250,13 +250,13 @@ export default function HeroSection() {
         
         {/* Top Location & Email Header Pill Bar */}
         <div
-          className="animate-fade-delayed flex items-center justify-center gap-2 sm:gap-3 text-[10px] sm:text-[11.5px] font-mono tracking-[0.20em] uppercase text-[#786C65] font-semibold"
+          className="animate-fade-delayed flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 text-[9.5px] sm:text-[11.5px] font-mono tracking-[0.18em] sm:tracking-[0.20em] uppercase text-[#786C65] font-semibold px-2"
         >
           <span className="inline-flex items-center gap-1.5 text-[#480B15]">
             <MapPin className="w-3.5 h-3.5 text-[#480B15]" />
             <span>GREATER NOIDA • NCR, INDIA</span>
           </span>
-          <span className="text-[#8B7D76]/40">|</span>
+          <span className="text-[#8B7D76]/40 hidden xs:inline">|</span>
           <span className="inline-flex items-center gap-1.5 text-[#786C65]">
             <Mail className="w-3.5 h-3.5 text-[#786C65]" />
             <span className="lowercase">iconicartglobal@gmail.com</span>
@@ -265,9 +265,9 @@ export default function HeroSection() {
 
         {/* Monumental Brand Display Title - Instant GPU-Composited Kinetic Intro (Zero Lag / Zero Stick) */}
         <div
-          className="animate-kinetic-shrink text-center mt-3 sm:mt-4 md:mt-4 mb-0 origin-center will-change-transform z-30 select-none"
+          className="animate-kinetic-shrink text-center mt-2.5 sm:mt-4 md:mt-4 mb-0 origin-center will-change-transform z-30 select-none px-2"
         >
-          <h1 className="font-spencer font-black text-5xl sm:text-7xl md:text-8xl lg:text-[98px] xl:text-[110px] uppercase text-[#2B0810] leading-[0.88] tracking-[-0.02em]">
+          <h1 className="font-spencer font-black text-4xl sm:text-6xl md:text-7xl lg:text-[94px] xl:text-[108px] uppercase text-[#2B0810] leading-[0.90] sm:leading-[0.88] tracking-[-0.02em]">
             {BRAND_WORDS.map((w, wIdx) => (
               <span key={wIdx} className="inline-block whitespace-nowrap">
                 {w.letters.map((l, lIdx) => (
@@ -334,7 +334,7 @@ export default function HeroSection() {
           onTouchMove={handleDeckTouchMove}
           onTouchStart={handleDeckTouchMove}
           onMouseLeave={() => setHoveredCard(null)}
-          className="relative w-[340px] sm:w-[460px] md:w-[520px] h-[240px] sm:h-[280px] md:h-[310px] flex items-center justify-center z-20 cursor-pointer"
+          className="relative w-[320px] sm:w-[460px] md:w-[520px] h-[230px] sm:h-[280px] md:h-[310px] scale-[0.82] xs:scale-[0.88] sm:scale-95 md:scale-100 origin-center flex items-center justify-center z-20 cursor-pointer"
         >
           {/* Ambient Depth Blur Shadow Underneath Cards */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] sm:w-[560px] h-[90px] rounded-full bg-[#480B15]/10 blur-2xl pointer-events-none z-10" />
@@ -371,7 +371,7 @@ export default function HeroSection() {
                   transformStyle: "preserve-3d",
                   zIndex: isHovered ? 60 : idx + 1,
                 }}
-                className={`absolute w-[165px] sm:w-[205px] md:w-[235px] h-[190px] sm:h-[235px] md:h-[270px] rounded-[24px] sm:rounded-[32px] overflow-visible ${card.cardBg} cursor-pointer block p-2 sm:p-2.5 select-none transition-shadow duration-300 ${
+                className={`absolute w-[155px] sm:w-[205px] md:w-[235px] h-[180px] sm:h-[235px] md:h-[270px] rounded-[22px] sm:rounded-[32px] overflow-visible ${card.cardBg} cursor-pointer block p-2 sm:p-2.5 select-none transition-shadow duration-300 ${
                   isHovered
                     ? "shadow-[0_28px_65px_rgba(72,11,21,0.26)]"
                     : "shadow-[0_16px_36px_rgba(72,11,21,0.11)]"
