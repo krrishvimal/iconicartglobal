@@ -1,26 +1,305 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, Didot, serif;
+  --font-cursive: 'Dancing Script', cursive;
+  --font-heading: 'Cormorant Garamond', Garamond, Georgia, serif;
+
+  /* Client Reference Palette (High Fashion / Editorial Rich Aesthetic) */
+  --color-burgundy: #4C1513;        /* #4C1513 from Client Image 1 */
+  --color-burgundy-dark: #3E000C;   /* #3E000C Aubergine from Client Image 4 */
+  --color-burgundy-cab: #490B1A;    /* #490B1A Cab Sav from Client Image 3 */
+  --color-burgundy-light: #702026;
+  
+  --color-candy: #EBB4BF;           /* #EBB4BF Candy Pink from Client Image 1 */
+  --color-candy-light: #F8E2E6;     /* Ultra-soft blush tint */
+  --color-candy-dark: #D6919F;      /* Rich dusty rose */
+  --color-rose: #EBB4BF;
+  --color-rose-light: #F8E2E6;
+
+  --color-beige: #F3ECE0;           /* #F3ECE0 Subtle Beige from Client Image 3 */
+  --color-beige-dark: #E6DCCB;
+  --color-cream: #F3ECE0;           /* Primary canvas background */
+  --color-cream-dark: #EADBCA;
+  --color-blush: #F8E2E6;
+  --color-blush-dark: #EBB4BF;
+
+  --color-sky: #A2C0DD;             /* #A2C0DD Sky Blue from Client Image 3 */
+  --color-sky-light: #C9FBFF;       /* #C9FBFF Sky from Client Image 4 */
+  --color-sky-dark: #7CA1C4;
+
+  --color-butter: #F8DE7E;          /* Butter Yellow (Pantone 12-0727) from Client Image 5 */
+  --color-butter-light: #FFF4D0;
+  --color-butter-dark: #E6C85E;
+  --color-gold: #D4A853;            /* Fine jewelry warm gold */
+  --color-gold-light: #F8DE7E;
+
+  --color-slate: #525050;           /* #525050 Slate from Client Image 3 */
+  --color-charcoal: #2A1817;        /* Deep wine-charcoal */
+  --color-warm-gray: #6B5B5B;
+  --color-light-gray: #F5EFEB;
+
+  --color-success: #2D8A4E;
+  --color-cta-pink: #D64B74;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #F3ECE0;            /* Subtle Beige from Client Image 3 */
+  --foreground: #2A1817;            /* Deep rich espresso-wine text */
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar in Candy & Burgundy */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F3ECE0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4A853;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4C1513;
+}
+
+/* Selection in soft candy pink */
+::selection {
+  background-color: #EBB4BF;
+  color: #3E000C;
+}
+
+.font-spencer {
+  font-family: 'Anton', 'Bebas Neue', 'Impact', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.font-artist {
+  font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Editorial typography & luxury accents */
+.editorial-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.editorial-sub {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  letter-spacing: 0.015em;
+}
+
+.editorial-tag {
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.candy-badge {
+  background-color: #EBB4BF;
+  color: #3E000C;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sky-badge {
+  background-color: #A2C0DD;
+  color: #1A344E;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.butter-badge {
+  background-color: #F8DE7E;
+  color: #3E000C;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Luxury card hover */
+.product-card-hover {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -15px rgba(62, 0, 12, 0.18);
+}
+
+/* Luxury card container with museum mat-board styling */
+.luxury-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(212, 168, 83, 0.28);
+  box-shadow: 0 10px 30px -5px rgba(62, 0, 12, 0.04);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.luxury-card:hover {
+  border-color: rgba(212, 168, 83, 0.6);
+  box-shadow: 0 25px 60px -12px rgba(62, 0, 12, 0.12);
+}
+
+/* Museum Mat-Board Frame Container */
+.atelier-frame {
+  background: #FAF7F2;
+  border: 1px solid rgba(212, 168, 83, 0.35);
+  box-shadow: 0 20px 50px -10px rgba(62, 0, 12, 0.08);
+  padding: 16px;
+  border-radius: 24px;
+  position: relative;
+}
+
+/* Fine Gold Hairline Divider */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(212, 168, 83, 0.4) 20%, rgba(212, 168, 83, 0.8) 50%, rgba(212, 168, 83, 0.4) 80%, transparent 100%);
+}
+
+/* Subtle Shimmer for Gold Crests */
+@keyframes goldShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-gold {
+  background: linear-gradient(90deg, #D4A853 0%, #FFF4D0 50%, #D4A853 100%);
+  background-size: 200% 100%;
+  animation: goldShimmer 6s infinite linear;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Rich Velvet Burgundy background */
+.bg-rich-burgundy {
+  background: radial-gradient(ellipse at top, #4C1513 0%, #3E000C 50%, #220308 100%);
+}
+
+/* Contrast Candy & Burgundy gradient */
+.bg-candy-burgundy {
+  background: linear-gradient(135deg, #3E000C 0%, #702026 55%, #EBB4BF 100%);
+}
+
+.text-gradient-rich {
+  background: linear-gradient(135deg, #3E000C 0%, #702026 40%, #B8860B 80%, #D4A853 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #D4A853 0%, #F8DE7E 50%, #B8860B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Texture pattern subtle */
+.bg-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(76, 21, 19, 0.05) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.hide-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =========================================================================
+   GPU-COMPOSITED KINETIC TYPOGRAPHY INTRO (ZERO HYDRATION LAG / ZERO FREEZE)
+   Runs instantly on frame 0 in the browser compositor thread
+   ========================================================================= */
+@keyframes titleKineticShrinkDesktop {
+  0% {
+    transform: translateY(28vh) scale(2.15);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes titleKineticShrinkMobile {
+  0% {
+    transform: translateY(22vh) scale(1.5);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes letterUnwarp {
+  0% {
+    transform: translateY(var(--warp-y)) scaleX(var(--warp-sx)) scaleY(var(--warp-sy)) rotate(var(--warp-rot));
+  }
+  100% {
+    transform: translateY(0) scaleX(1) scaleY(1) rotate(0deg);
+  }
+}
+
+@keyframes fadeInDelayed {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  65% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-kinetic-shrink {
+  animation: titleKineticShrinkMobile 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
+  will-change: transform;
+}
+
+@media (min-width: 768px) {
+  .animate-kinetic-shrink {
+    animation-name: titleKineticShrinkDesktop;
+  }
+}
+
+.animate-letter-unwarp {
+  animation: letterUnwarp 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
+  will-change: transform;
+}
+
+.animate-fade-delayed {
+  animation: fadeInDelayed 2.0s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
 }
