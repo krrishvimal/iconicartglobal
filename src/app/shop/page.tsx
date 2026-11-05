@@ -128,7 +128,7 @@ export default function ShopPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {productCategories.map((cat, idx) => (
             <Link
               key={cat.id}
@@ -215,7 +215,7 @@ export default function ShopPage() {
         </div>
 
         {/* Product Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
           {filteredProducts.map((product) => (
             <motion.div
               key={product.id}

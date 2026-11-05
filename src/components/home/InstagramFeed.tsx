@@ -33,7 +33,7 @@ export default function InstagramFeed() {
         {/* =========================================================================
             2. SPENCER GABOR-STYLE SQUIRCLE IMAGE TILES
             ========================================================================= */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
           {feedImages.map((image, i) => (
             <motion.a
               key={image.id}

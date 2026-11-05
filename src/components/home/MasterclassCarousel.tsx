@@ -148,8 +148,8 @@ export default function MasterclassCarousel() {
             </p>
           </div>
 
-          {/* Spencer Gabor-Style Drag Controllers */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Spencer Gabor-Style Drag Controllers (Visible on Desktop / Tablet) */}
+          <div className="hidden md:flex items-center gap-3 shrink-0">
             <span className="text-[10px] font-mono tracking-widest uppercase text-[#525050] hidden sm:inline mr-2">
               Drag or Scroll Track
             </span>
@@ -175,7 +175,7 @@ export default function MasterclassCarousel() {
             ========================================================================= */}
         <div
           ref={containerRef}
-          className="flex gap-6 overflow-x-auto pb-12 pt-3 px-2 -mx-2 hide-scrollbar scrollbar-none snap-x snap-mandatory cursor-grab active:cursor-grabbing"
+          className="grid grid-cols-2 gap-3 sm:gap-4 md:flex md:gap-6 md:overflow-x-auto pb-8 sm:pb-12 pt-3 px-1 sm:px-2 -mx-1 sm:-mx-2 hide-scrollbar scrollbar-none md:snap-x md:snap-mandatory cursor-grab active:cursor-grabbing"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {workshops.map((workshop) => {
@@ -186,11 +186,11 @@ export default function MasterclassCarousel() {
                 key={workshop.id}
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className={`w-[310px] sm:w-[350px] md:w-[370px] shrink-0 snap-start rounded-[16px] sm:rounded-[18px] bg-white ${theme.hoverBg} p-3.5 sm:p-4 border border-black/[0.08] ${theme.hoverBorder} transition-all duration-500 ease-out flex flex-col justify-between group cursor-pointer shadow-none hover:shadow-xl`}
+                className={`w-full md:w-[350px] lg:w-[370px] md:shrink-0 md:snap-start rounded-[16px] sm:rounded-[18px] bg-white ${theme.hoverBg} p-2.5 sm:p-4 border border-black/[0.08] ${theme.hoverBorder} transition-all duration-500 ease-out flex flex-col justify-between group cursor-pointer shadow-none hover:shadow-xl`}
               >
                 <div>
                   {/* 1. Inset Image Window with clean gap from outer card border */}
-                  <div className="relative aspect-[4/3] w-full rounded-[12px] sm:rounded-[14px] overflow-hidden bg-black/5 mb-4">
+                  <div className="relative aspect-[4/3] w-full rounded-[10px] sm:rounded-[14px] overflow-hidden bg-black/5 mb-2.5 sm:mb-4">
                     <Image
                       src={workshop.image}
                       alt={workshop.title}
@@ -200,44 +200,44 @@ export default function MasterclassCarousel() {
                     />
 
                     {/* Discreet Atelier Micro Tag */}
-                    <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[9.5px] font-bold tracking-[0.18em] uppercase text-[#3E000C] shadow-xs">
+                    <div className="absolute bottom-1.5 left-1.5 sm:bottom-2.5 sm:left-2.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/90 backdrop-blur-md text-[7.5px] sm:text-[9.5px] font-bold tracking-[0.14em] uppercase text-[#3E000C] shadow-xs">
                       {workshop.duration} &bull; {workshop.format}
                     </div>
                   </div>
 
                   {/* 2. Discipline Tag & Transparent Price Header */}
-                  <div className="flex items-center justify-between mb-1.5 px-0.5">
-                    <span className="text-[9.5px] font-bold uppercase tracking-[0.22em] text-[#D4A853]">
+                  <div className="flex items-center justify-between mb-1 sm:mb-1.5 px-0.5">
+                    <span className="text-[7.5px] sm:text-[9.5px] font-bold uppercase tracking-[0.18em] text-[#D4A853]">
                       {workshop.disciplineTag || theme.tag}
                     </span>
-                    <span className="text-sm font-serif font-bold text-[#3E000C]">
+                    <span className="text-xs sm:text-sm font-serif font-bold text-[#3E000C]">
                       {workshop.price}
                     </span>
                   </div>
 
                   {/* 3. Full Graceful Title */}
                   <Link href={`/workshops#${workshop.id}`}>
-                    <h3 className="font-serif text-lg sm:text-xl font-bold text-[#3E000C] group-hover:text-[#702026] transition-colors leading-snug mb-2 min-h-[52px] flex items-center">
+                    <h3 className="font-serif text-xs sm:text-lg lg:text-xl font-bold text-[#3E000C] group-hover:text-[#702026] transition-colors leading-snug mb-1 sm:mb-2 min-h-0 sm:min-h-[52px] flex items-center">
                       {workshop.title}
                     </h3>
                   </Link>
 
-                  <p className="text-xs text-[#525050] line-clamp-2 font-normal leading-relaxed mb-4">
+                  <p className="text-[10px] sm:text-xs text-[#525050] line-clamp-2 font-normal leading-relaxed mb-2.5 sm:mb-4">
                     {workshop.description}
                   </p>
                 </div>
 
                 {/* 4. Sleek Editorial Bottom Bar */}
-                <div className="pt-3 border-t border-black/[0.06] flex items-center justify-between">
-                  <span className="text-[11px] text-[#4C1513]/60 font-medium">
-                    All materials provided
+                <div className="pt-2 sm:pt-3 border-t border-black/[0.06] flex items-center justify-between">
+                  <span className="text-[9px] sm:text-[11px] text-[#4C1513]/60 font-medium hidden xs:inline">
+                    Materials provided
                   </span>
                   <Link
                     href={`/workshops#${workshop.id}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.18em] text-[#3E000C] group-hover:text-[#D4A853] transition-colors py-1"
+                    className="inline-flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#3E000C] group-hover:text-[#D4A853] transition-colors py-1 ml-auto xs:ml-0"
                   >
                     <span>Reserve</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
+                    <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1.5 transition-transform" />
                   </Link>
                 </div>
               </motion.div>

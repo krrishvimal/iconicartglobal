@@ -74,7 +74,7 @@ export default function BoutiqueLookbook() {
         {/* =========================================================================
             2. SPENCER GABOR-STYLE CLEAN SQUIRCLE PRODUCT GRID
             ========================================================================= */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
           {salonProducts.map((product) => {
             const displayImage =
               (product.images && product.images[0]) ||
@@ -85,11 +85,11 @@ export default function BoutiqueLookbook() {
                 key={product.id}
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-[30px] sm:rounded-[34px] bg-white p-3 sm:p-3.5 shadow-[0_16px_40px_rgba(40,10,15,0.08)] hover:shadow-[0_28px_65px_rgba(40,10,15,0.20)] border border-black/[0.04] flex flex-col justify-between group transition-shadow duration-300"
+                className="rounded-[22px] sm:rounded-[34px] bg-white p-2.5 sm:p-3.5 shadow-[0_16px_40px_rgba(40,10,15,0.08)] hover:shadow-[0_28px_65px_rgba(40,10,15,0.20)] border border-black/[0.04] flex flex-col justify-between group transition-shadow duration-300"
               >
                 {/* 1. Artwork Window */}
                 <div
-                  className="relative h-[240px] sm:h-[270px] w-full rounded-[22px] sm:rounded-[26px] overflow-hidden bg-[#FAF7F2] cursor-pointer"
+                  className="relative h-[155px] xs:h-[185px] sm:h-[240px] lg:h-[270px] w-full rounded-[16px] sm:rounded-[26px] overflow-hidden bg-[#FAF7F2] cursor-pointer"
                   onClick={() => setInspectingProduct(product)}
                 >
                   <Image
@@ -117,21 +117,21 @@ export default function BoutiqueLookbook() {
                 </div>
 
                 {/* 2. Placard Details: Clean Title, Tag, and Price */}
-                <div className="pt-3.5 pb-2 px-1 text-left flex items-start justify-between gap-3">
+                <div className="pt-2 sm:pt-3.5 pb-1 sm:pb-2 px-0.5 sm:px-1 text-left flex flex-col xs:flex-row xs:items-start justify-between gap-1 sm:gap-3">
                   <div className="min-w-0 flex-1">
                     <p className="text-[9px] font-mono tracking-widest uppercase text-[#D4A853] font-bold">
                       Original Studio Creation
                     </p>
                     <h3
                       onClick={() => setInspectingProduct(product)}
-                      className="font-serif text-base sm:text-lg font-bold text-[#3E000C] tracking-tight leading-snug truncate mt-0.5 cursor-pointer hover:text-[#D4A853] transition-colors"
+                      className="font-serif text-xs sm:text-base lg:text-lg font-bold text-[#3E000C] tracking-tight leading-snug truncate mt-0.5 cursor-pointer hover:text-[#D4A853] transition-colors"
                     >
                       {product.name}
                     </h3>
                   </div>
 
                   <div className="shrink-0 pt-1">
-                    <span className="inline-block text-xs sm:text-sm font-serif font-bold text-[#3E000C] bg-[#FAF7F2] px-3 py-1 rounded-full border border-black/[0.06] shadow-xs">
+                    <span className="inline-block text-[10.5px] sm:text-sm font-serif font-bold text-[#3E000C] bg-[#FAF7F2] px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-black/[0.06] shadow-xs">
                       ₹{product.price.toLocaleString("en-IN")}
                     </span>
                   </div>
@@ -141,7 +141,7 @@ export default function BoutiqueLookbook() {
                 <div className="pt-1 flex items-center gap-2">
                   <button
                     onClick={() => handleQuickAdd(product)}
-                    className="flex-1 py-3 rounded-full bg-[#FAF7F2] hover:bg-[#3E000C] text-[#3E000C] hover:text-[#F8DE7E] border border-black/[0.06] text-[10.5px] font-bold uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    className="flex-1 py-2 sm:py-3 rounded-full bg-[#FAF7F2] hover:bg-[#3E000C] text-[#3E000C] hover:text-[#F8DE7E] border border-black/[0.06] text-[9.5px] sm:text-[10.5px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all flex items-center justify-center gap-1 sm:gap-2 cursor-pointer shadow-xs"
                   >
                     <ShoppingBag className="w-3.5 h-3.5" />
                     <span>Add to Bag</span>
@@ -149,7 +149,7 @@ export default function BoutiqueLookbook() {
 
                   <button
                     onClick={() => setInspectingProduct(product)}
-                    className="w-11 h-11 rounded-full bg-white hover:bg-[#FAF7F2] text-[#3E000C] border border-black/[0.08] flex items-center justify-center cursor-pointer transition-colors shrink-0 shadow-xs"
+                    className="w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white hover:bg-[#FAF7F2] text-[#3E000C] border border-black/[0.08] flex items-center justify-center cursor-pointer transition-colors shrink-0 shadow-xs"
                     title="Inspect Details"
                     aria-label="Inspect creation"
                   >

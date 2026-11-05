@@ -267,7 +267,7 @@ export default function HeroSection() {
         <div
           className="animate-kinetic-shrink text-center mt-3 sm:mt-4 md:mt-4 mb-0 origin-center will-change-transform z-30 select-none"
         >
-          <h1 className="font-spencer font-black text-5xl sm:text-7xl md:text-8xl lg:text-[98px] xl:text-[110px] uppercase text-[#2B0810] leading-[0.88] tracking-[-0.02em]">
+          <h1 className="font-spencer font-black text-4xl sm:text-6xl md:text-7xl lg:text-[94px] xl:text-[108px] uppercase text-[#2B0810] leading-[0.90] sm:leading-[0.88] tracking-[-0.02em]">
             {BRAND_WORDS.map((w, wIdx) => (
               <span key={wIdx} className="inline-block whitespace-nowrap">
                 {w.letters.map((l, lIdx) => (
@@ -334,7 +334,7 @@ export default function HeroSection() {
           onTouchMove={handleDeckTouchMove}
           onTouchStart={handleDeckTouchMove}
           onMouseLeave={() => setHoveredCard(null)}
-          className="relative w-[340px] sm:w-[460px] md:w-[520px] h-[240px] sm:h-[280px] md:h-[310px] flex items-center justify-center z-20 cursor-pointer"
+          className="relative w-[320px] sm:w-[460px] md:w-[520px] h-[230px] sm:h-[280px] md:h-[310px] scale-[0.84] xs:scale-[0.90] sm:scale-95 md:scale-100 origin-center flex items-center justify-center z-20 cursor-pointer"
         >
           {/* Ambient Depth Blur Shadow Underneath Cards */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] sm:w-[560px] h-[90px] rounded-full bg-[#480B15]/10 blur-2xl pointer-events-none z-10" />

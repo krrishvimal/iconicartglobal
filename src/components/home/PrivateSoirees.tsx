@@ -61,17 +61,17 @@ export default function PrivateSoirees() {
         {/* =========================================================================
             2. SPENCER GABOR-STYLE SQUIRCLE EVENT CARDS
             ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
           {soirees.map((soiree) => (
             <motion.div
               key={soiree.title}
               whileHover={{ y: -8 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className={`rounded-[20px] sm:rounded-[24px] ${soiree.colorBg} p-3.5 sm:p-4 shadow-[0_16px_40px_rgba(40,10,15,0.08)] hover:shadow-[0_28px_60px_rgba(40,10,15,0.18)] border border-black/[0.04] transition-all duration-500 flex flex-col justify-between group`}
+              className={`rounded-[18px] sm:rounded-[24px] ${soiree.colorBg} p-2.5 sm:p-4 shadow-[0_16px_40px_rgba(40,10,15,0.08)] hover:shadow-[0_28px_60px_rgba(40,10,15,0.18)] border border-black/[0.04] transition-all duration-500 flex flex-col justify-between group`}
             >
               <div>
                 {/* Event Image Window */}
-                <div className="relative h-[220px] sm:h-[240px] w-full rounded-[14px] sm:rounded-[18px] overflow-hidden bg-black/5">
+                <div className="relative h-[145px] xs:h-[175px] sm:h-[240px] w-full rounded-[14px] sm:rounded-[18px] overflow-hidden bg-black/5">
                   <Image
                     src={soiree.image}
                     alt={soiree.title}
@@ -100,11 +100,11 @@ export default function PrivateSoirees() {
                     {soiree.tagline}
                   </p>
 
-                  <h3 className="font-serif text-lg sm:text-xl font-bold text-[#3E000C] tracking-tight leading-snug">
+                  <h3 className="font-serif text-xs sm:text-lg lg:text-xl font-bold text-[#3E000C] tracking-tight leading-snug line-clamp-2">
                     {soiree.title}
                   </h3>
 
-                  <p className="text-xs text-[#525050] font-normal leading-relaxed pt-1">
+                  <p className="text-[10px] sm:text-xs text-[#525050] font-normal leading-relaxed pt-0.5 sm:pt-1 line-clamp-2">
                     {soiree.description}
                   </p>
                 </div>
@@ -118,7 +118,7 @@ export default function PrivateSoirees() {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 rounded-full bg-white hover:bg-[#3E000C] text-[#3E000C] hover:text-[#F8DE7E] border border-black/[0.08] text-[10.5px] font-bold uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 shadow-xs text-center"
+                  className="w-full py-2 sm:py-3 rounded-full bg-white hover:bg-[#3E000C] text-[#3E000C] hover:text-[#F8DE7E] border border-black/[0.08] text-[9px] sm:text-[10.5px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] transition-all flex items-center justify-center gap-1.5 sm:gap-2 shadow-xs text-center"
                 >
                   <MessageCircle className="w-3.5 h-3.5 text-[#D4A853]" />
                   <span>Reserve Event Dates</span>

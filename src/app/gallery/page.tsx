@@ -94,7 +94,7 @@ export default function GalleryPage() {
 
       {/* 3. Salon Wall Masonry */}
       <section className="py-20 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+        <motion.div layout className="columns-2 lg:columns-3 gap-3 sm:gap-6 lg:gap-8 space-y-3 sm:space-y-6 lg:space-y-8">
           <AnimatePresence>
             {filteredImages.map((img, idx) => (
               <motion.div
