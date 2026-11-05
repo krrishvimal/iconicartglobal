@@ -7,7 +7,7 @@ import { ArrowRight, ZoomIn, Sparkles } from "lucide-react";
 import { galleryImages } from "@/lib/constants";
 
 export default function GalleryHighlights() {
-  const highlightImages = galleryImages.slice(0, 6);
+  const highlightImages = galleryImages.slice(0, 8);
 
   return (
     <section className="bg-[#F3ECE0] py-24 lg:py-32 border-b border-[#EBB4BF]/40 relative">
@@ -36,13 +36,13 @@ export default function GalleryHighlights() {
           </p>
         </motion.div>
 
-        {/* Curated 3-Column Grid */}
+        {/* Curated Grid */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
         >
           {highlightImages.map((image, i) => (
             <motion.div

@@ -45,8 +45,8 @@ export default function FeaturedWorkshops() {
           </p>
         </motion.div>
 
-        {/* Workshop 3-Column Grid */}
-        <div className="mt-16 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {/* Workshop Grid */}
+        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {featuredWorkshops.map((workshop, i) => (
             <motion.div
               key={workshop.id}

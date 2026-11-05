@@ -59,9 +59,9 @@ export default function PrivateSoirees() {
         </div>
 
         {/* =========================================================================
-            2. SPENCER GABOR-STYLE 3-COLUMN SQUIRCLE EVENT CARDS
+            2. SPENCER GABOR-STYLE SQUIRCLE EVENT CARDS
             ========================================================================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {soirees.map((soiree) => (
             <motion.div
               key={soiree.title}
